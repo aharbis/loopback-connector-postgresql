@@ -25,6 +25,9 @@ describe('autoupdate', function() {
         dateJoined: {
           type: String,
         },
+        badge: {
+          type: Number,
+        },
       };
       SimpleEmployee = ds.define('SimpleEmployee', properties);
       ds.automigrate(done);
@@ -41,6 +44,7 @@ describe('autoupdate', function() {
           assert.equal(props[0].dataType, 'text');
           assert.equal(props[1].dataType, 'integer');
           assert.equal(props[2].dataType, 'text');
+          assert.equal(props[3].dataType, 'integer');
           done();
         });
     });
@@ -48,6 +52,7 @@ describe('autoupdate', function() {
     it('perform autoupdate and get new model properties', function(done) {
       properties.age.type = String;
       properties.dateJoined.type = Date;
+      properties.badge.generated = true;
       SimpleEmployee = ds.define('SimpleEmployee', properties);
       ds.autoupdate(function(err) {
         assert(!err);
@@ -57,6 +62,7 @@ describe('autoupdate', function() {
             assert.equal(props[0].dataType, 'text');
             assert.equal(props[1].dataType, 'text');
             assert.equal(props[2].dataType, 'timestamp with time zone');
+            assert.equal(props[3].dataType, 'serial');
             done();
           });
       });
